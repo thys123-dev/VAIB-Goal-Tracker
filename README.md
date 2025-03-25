@@ -1,36 +1,115 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Goal Tracker
+
+A web application to track, manage, and achieve personal and professional goals with email reminders. Built with Next.js, React, TypeScript, and Supabase.
+
+## Features
+
+- **Goal Submission**: Create goals with descriptions and target dates
+- **User Verification**: System checks if users exist in a predefined database
+- **Goal Management**: View, update status, and delete your goals
+- **Email Reminders**: Receive email notifications as goal due dates approach
+- **Response Handling**: Update goal status directly via email replies
+- **Responsive Design**: Works on desktop and mobile devices
+
+## Tech Stack
+
+- **Frontend**: Next.js, React, TypeScript, TailwindCSS
+- **Backend**: Next.js API Routes
+- **Database**: Supabase
+- **Form Handling**: React Hook Form, Zod validation
+- **Email Service**: Integration ready for SendGrid, Mailgun, etc.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18.0.0 or later
+- npm or yarn
+- A Supabase account for database functionality
+
+### Setup
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/goal-tracker.git
+cd goal-tracker
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Create a `.env.local` file with your Supabase credentials:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url_here
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
+```
+
+4. Set up the Supabase database:
+
+Create the following tables in your Supabase project:
+
+**users:**
+- id (int8, primary key)
+- email (text, unique)
+- created_at (timestamp with time zone)
+
+**goals:**
+- id (int8, primary key)
+- user_email (text, foreign key to users.email)
+- description (text)
+- target_date (date)
+- status (text, enum: 'pending', 'completed', 'failed')
+- created_at (timestamp with time zone)
+
+5. Run the development server:
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+6. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Database Schema
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Users Table
 
-## Learn More
+| Column     | Type                   | Description            |
+|------------|------------------------|------------------------|
+| id         | int8                   | Primary key            |
+| email      | text                   | User's email (unique)  |
+| created_at | timestamp with time zone | Creation timestamp   |
 
-To learn more about Next.js, take a look at the following resources:
+### Goals Table
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Column      | Type                   | Description                          |
+|-------------|------------------------|--------------------------------------|
+| id          | int8                   | Primary key                          |
+| user_email  | text                   | Foreign key to users.email           |
+| description | text                   | Goal description                     |
+| target_date | date                   | Goal target completion date          |
+| status      | text                   | Status: 'pending', 'completed', 'failed' |
+| created_at  | timestamp with time zone | Creation timestamp                 |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deployment
 
-## Deploy on Vercel
+This app can be deployed on Vercel, Netlify, or any other Next.js-compatible hosting provider.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+# Build for production
+npm run build
+# or
+yarn build
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+
+[MIT](LICENSE)
